@@ -8,15 +8,14 @@ import {RecommendList} from './Recommend';
 import {useChatStore} from '../../store';
 import send from '@/assets/send.svg';
 import clear from '@/assets/clear.svg';
-import {request} from '@/utils/requests';
+import ky from 'ky';
 
 export const getAnswer = async (message: string) => {
-  return await request<{
-    answer: string[];
-  }>({
-    url: '/ask/' + message,
-    method: 'get',
-  });
+  return await ky.get('/api/ask/' + message).json<{
+    data: {
+      answer: string[];
+    };
+  }>();
 };
 
 export const ChatBottom: React.FC = () => {

@@ -6,8 +6,7 @@ import Loading from '@/components/Loading';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import ForceGraph3D, {GraphData} from 'react-force-graph-3d';
 import ForceGraph2D from 'react-force-graph-2d';
-import {request} from '@/utils/requests';
-
+import ky from 'ky';
 function genRandomTree(N = 300, reverse = false) {
   return {
     nodes: [...Array(N).keys()].map(i => ({id: i})),
@@ -29,12 +28,11 @@ export const Graph: React.FC = props => {
   const [loading, setLoading] = useState(false);
   const [is3D, setIs3D] = useState(false);
 
-  useEffect(() => {
-    request({
-      url: '/hotel',
-      method: 'get',
-    }).then(scenicData => setData(scenicData));
-  }, []);
+  // useEffect(() => {
+  //   ky.get('/api/hotel', {
+  //     timeout: 300000,
+  //   }).then(res => setData(res));
+  // }, []);
 
   const fgRef = useRef<any>();
 
@@ -55,9 +53,7 @@ export const Graph: React.FC = props => {
     const handleSubmit = (e: any) => {
       e.preventDefault();
       console.log('查询实体');
-      request({
-        url: '/search?q=' + inputValue,
-      }).then(res => setData(res));
+      ky.get('/api/search?q=' + inputValue).then(res => setData(res));
     };
     const handleChange = (e: any) => {
       setInputValue(e.target.value);
@@ -101,10 +97,10 @@ export const Graph: React.FC = props => {
             url;
           }
           setLoading(true);
-          request({
-            url: url,
-            method: 'get',
+          ky.get('/api' + url, {
+            timeout: 30000,
           })
+            .json()
             .then(data => {
               setLoading(false);
               setData(data);
@@ -114,7 +110,7 @@ export const Graph: React.FC = props => {
               console.log(err);
             });
         }}
-        className="py-3 px-4 inline-flex justify-center items-center gap-2 -ml-px first:rounded-l-lg first:ml-0 last:rounded-r-lg border font-medium bg-white text-gray-700 align-middle hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400"
+        className="py-3 px-4 inline-flex justify-center items-center gap-2 -ml-px first:rounded-l-lg first:ml-0 last:rounded-r-lg border font-medium bg-transparent text-cyan-300 align-middle hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400"
       >
         {props.btnName}
       </button>
@@ -131,7 +127,7 @@ export const Graph: React.FC = props => {
           onClick={() => {
             setIs3D(!is3D);
           }}
-          checked={is3D}
+          defaultChecked={is3D}
           className="relative shrink-0 w-[3.25rem] h-7 bg-gray-100 checked:bg-none 
                   checked:bg-blue-600
                      border-2 border-transparent rounded-full cursor-pointer 
