@@ -1,0 +1,43 @@
+{
+  "name": "map-react",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "prettier": "prettier-airbnb-config",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "echarts": "^5.4.1",
+    "echarts-for-react": "^3.0.2",
+    "react": "^18.2.0",
+    "react-chatbot-kit": "^2.1.2",
+    "react-dom": "^18.2.0",
+    "react-force-graph-3d": "^1.22.0",
+    "react-router-dom": "^6.9.0",
+    "three-spritetext": "^1.8.0",
+    "zustand": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tabler/icons-react": "^2.15.0",
+    "@types/node": "^18.15.3",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@types/three": "^0.150.1",
+    "@vitejs/plugin-react": "^3.1.0",
+    "autoprefixer": "^10.4.13",
+    "axios": "^1.3.5",
+    "postcss": "^8.4.21",
+    "prettier": "^1.18.2",
+    "prettier-airbnb-config": "^1.0.0",
+    "react-force-graph-2d": "^1.24.1",
+    "react-full-screen": "^1.1.1",
+    "sass": "^1.60.0",
+    "tailwindcss": "^3.2.7",
+    "three": "^0.151.3",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
+  }
+}
