@@ -3,8 +3,8 @@ import App from './App';
 import {IGraphPage} from './pages/Map/index';
 
 import {Errors} from './pages/Errors';
-import {NodeVis} from './pages/Nodes';
 import {MyChatbot} from './pages/Chat/bot';
+import {NodeVis} from './pages/Nodes';
 
 export const router = createBrowserRouter([
   {

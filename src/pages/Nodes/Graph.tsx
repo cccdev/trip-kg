@@ -20,7 +20,8 @@ function genRandomTree(N = 300, reverse = false) {
 }
 
 interface LoadDataButtonProp {
-  btnName: '景区' | '酒店' | '美食';
+  btnName: string;
+  url: string;
 }
 
 export const Graph: React.FC = props => {
@@ -50,10 +51,18 @@ export const Graph: React.FC = props => {
   );
 
   const SearchBar: React.FC = props => {
-    const handleSubmit = (e: any) => {
+    const searchEntity = (e: any) => {
       e.preventDefault();
       console.log('查询实体');
-      ky.get('/api/search?q=' + inputValue).then(res => setData(res));
+      ky.get('/api/search?q=' + inputValue, {
+        timeout: 30000,
+      })
+        .json()
+        .then(res => {
+          console.log(res);
+          setData(res);
+        })
+        .catch(err => console.log(err));
     };
     const handleChange = (e: any) => {
       setInputValue(e.target.value);
@@ -61,7 +70,7 @@ export const Graph: React.FC = props => {
     const [inputValue, setInputValue] = useState('');
     return (
       <div className="flex justify-center">
-        <form className="mb-3 w-48" onSubmit={handleSubmit}>
+        <form className="mb-3 w-48" onSubmit={searchEntity}>
           <input
             type="search"
             value={inputValue}
@@ -83,34 +92,25 @@ export const Graph: React.FC = props => {
   };
 
   const LoadDataButton: React.FC<LoadDataButtonProp> = props => {
+    const requestGraphData = () => {
+      setLoading(true);
+      ky.get('/api' + props.url, {
+        timeout: 30000,
+      })
+        .json()
+        .then(data => {
+          setLoading(false);
+          setData(data);
+        })
+        .catch(err => {
+          setLoading(false);
+          console.log(err);
+        });
+    };
     return (
       <button
-        onClick={() => {
-          let url = '';
-          if (props.btnName == '酒店') {
-            url = '/hotel';
-          } else if (props.btnName == '景区') {
-            url = '/all/scenic';
-          } else if (props.btnName == '美食') {
-            url = '/food';
-          } else {
-            url;
-          }
-          setLoading(true);
-          ky.get('/api' + url, {
-            timeout: 30000,
-          })
-            .json()
-            .then(data => {
-              setLoading(false);
-              setData(data);
-            })
-            .catch(err => {
-              setLoading(false);
-              console.log(err);
-            });
-        }}
-        className="py-3 px-4 inline-flex justify-center items-center gap-2 -ml-px first:rounded-l-lg first:ml-0 last:rounded-r-lg border font-medium bg-transparent text-cyan-300 align-middle hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400"
+        onClick={requestGraphData}
+        className="rounded py-3 px-4 inline-flex justify-center items-center gap-2 -ml-px first:rounded-l-lg first:ml-0 last:rounded-r-lg border font-medium bg-transparent text-cyan-300 align-middle hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400"
       >
         {props.btnName}
       </button>
@@ -147,14 +147,17 @@ export const Graph: React.FC = props => {
   };
   return (
     <div className="flex space-x-7">
-      <div className="mb-24">
+      <div className="flex flex-col mb-24">
         <SearchBar />
         <Switch2D />
         <div className="mt-10 inline-flex rounded-md shadow-sm">
-          <LoadDataButton btnName="景区" />
-          <LoadDataButton btnName="酒店" />
-          <LoadDataButton btnName="美食" />
+          <LoadDataButton btnName="景区" url="/all/scenic" />
+          <LoadDataButton btnName="酒店" url="/all/hotel" />
+          <LoadDataButton btnName="美食" url="/all/food" />
         </div>
+        <LoadDataButton btnName="景区附近景区" url="/nearby/scenic_scenic" />
+        <LoadDataButton btnName="景区附近酒店" url="/nearby/scenic_hotel" />
+        <LoadDataButton btnName="景区附近美食" url="/nearby/scenic_food" />
       </div>
       <div className="w-[1000px] h-[650px] flex justify-center content-center">
         {loading ? (

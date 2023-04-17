@@ -29,7 +29,7 @@ export const MyChatbot: React.FC = () => {
   };
 
   return (
-    <div className="text-black">
+    <div className="text-black ml-56">
       <ChatTop />
 
       <Chatbot
