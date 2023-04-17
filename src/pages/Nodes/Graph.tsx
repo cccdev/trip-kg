@@ -156,16 +156,12 @@ export const Graph: React.FC = props => {
           <LoadDataButton btnName="美食" />
         </div>
       </div>
-      <div>
+      <div className="w-[1000px] h-[650px] flex justify-center content-center">
         {loading ? (
-          <div className="self-center justify-center">
-            <Loading />
-          </div>
+          <Loading />
         ) : is3D ? (
           <ForceGraph3D
             backgroundColor="rgba(255,255,255,0)"
-            width={1000}
-            height={650}
             graphData={data}
             nodeAutoColorBy="group"
             ref={fgRef}
