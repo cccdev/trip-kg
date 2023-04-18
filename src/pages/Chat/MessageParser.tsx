@@ -1,7 +1,7 @@
 // in MessageParser.js
 import React, {ReactElement} from 'react';
-import {getAnswer} from '../Bottom';
 import {Actions} from './ActionProvider';
+import {getAnswer} from './config';
 
 interface Props {
   children: ReactElement;

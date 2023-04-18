@@ -10,9 +10,8 @@ export const Errors: React.FC = () => {
   console.error(error);
 
   return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
+    <div className="flex flex-col items-center justify-center w-full">
+      <p>页面出错了，原因是：</p>
       <p>
         <i>{error.statusText || error.message}</i>
       </p>

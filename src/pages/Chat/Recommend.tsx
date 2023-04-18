@@ -9,7 +9,7 @@ type ItemProps = {
 
 import wenhao from '@/assets/wenhao.svg';
 import {useChatStore} from '../../store';
-import {getAnswer} from './Bottom';
+import {getAnswer} from './config';
 
 const RecommendItem: React.FC<ItemProps> = props => {
   const sendQuestion = useChatStore(state => state.sendQuestion);

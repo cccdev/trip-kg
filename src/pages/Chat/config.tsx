@@ -1,6 +1,14 @@
+import ky from 'ky';
 import {useEffect, useState} from 'react';
 import {createChatBotMessage, createCustomMessage, Chatbot} from 'react-chatbot-kit';
-import {getAnswer} from '../Bottom';
+
+export const getAnswer = async (message: string) => {
+  return await ky.get('/api/ask/' + message).json<{
+    data: {
+      answer: string[];
+    };
+  }>();
+};
 
 type IChatConfig = Pick<Parameters<typeof Chatbot>[0], 'config'>['config'];
 
