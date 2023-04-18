@@ -7,6 +7,8 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import ForceGraph3D, {GraphData} from 'react-force-graph-3d';
 import ForceGraph2D from 'react-force-graph-2d';
 import ky from 'ky';
+import SpriteText from 'three-spritetext';
+
 function genRandomTree(N = 300, reverse = false) {
   return {
     nodes: [...Array(N).keys()].map(i => ({id: i})),
@@ -170,6 +172,23 @@ export const Graph: React.FC = props => {
             ref={fgRef}
             nodeLabel="id"
             onNodeClick={nodeFocus}
+            nodeRelSize={5}
+            linkThreeObjectExtend={true}
+            linkThreeObject={link => {
+              const sprite = new SpriteText(`${link.target.group}`);
+              sprite.color = 'lightgrey';
+              sprite.textHeight = 10;
+              return sprite;
+            }}
+            linkPositionUpdate={(sprite, {start, end}) => {
+              const middlePos = Object.assign(
+                ...['x', 'y', 'z'].map(c => ({
+                  [c]: start[c] + (end[c] - start[c]) / 2, // calc middle point
+                }))
+              );
+
+              Object.assign(sprite.position, middlePos);
+            }}
           />
         ) : (
           <ForceGraph2D

@@ -2,7 +2,7 @@
  * @author 陆劲涛
  * @description
  */
-import avatar from '@/assets/avatar.svg';
+import avatar from '@/assets/svg/avatar.svg';
 
 export const ChatTop: React.FC = () => {
   return (

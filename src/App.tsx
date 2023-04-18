@@ -5,7 +5,10 @@ import {SideMenu} from './components/SideMenu';
 function App() {
   return (
     <div className="" id="root">
-      <div className="w-full h-screen bg-center bg-cover" id="bg">
+      <div
+        className="w-full h-screen bg-center bg-cover bg-[url('./assets/images/bg.png')]"
+        id="bg"
+      >
         <HeaderTab />
         <div className="space-x-4 flex">
           <SideMenu />

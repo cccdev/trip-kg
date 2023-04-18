@@ -6,9 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'screen': "url('./src/assets/bg.png')",
-      }
+      // backgroundImage: {
+      //   'screen': "url('./src/assets/bg.png')",
+      // }
     }
   },
 }
